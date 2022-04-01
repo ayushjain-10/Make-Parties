@@ -28,11 +28,6 @@ app.set('view engine', 'handlebars');
 
 // app.js
 
-// Render the "home" layout for the main page and send the following msg
-app.get('/', (req, res) => {
-    res.render('home', { msg: 'Handlebars are Cool!' });
-  })  
-
 // OUR MOCK ARRAY OF PROJECTS
 var events = [
   { title: "I am your first event", desc: "A great event that is super fun to look at and good", imgUrl: "https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzA4OC85MTEvb3JpZ2luYWwvZ29sZGVuLXJldHJpZXZlci1wdXBweS5qcGVn" },
@@ -54,13 +49,6 @@ app.get('/events/new', (req, res) => {
   res.render('events-new', {});
 })
 
-// INDEX
-app.get('/', (req, res) => {
-  models.Event.findAll().then(events => {
-    res.render('events-index', { events: events });
-  })
-})
-
 // CREATE
 app.post('/events', (req, res) => {
   models.Event.create(req.body).then(event => {
@@ -68,4 +56,11 @@ app.post('/events', (req, res) => {
   }).catch((err) => {
     console.log(err)
   });
+})
+
+// Index
+app.get('/', (req, res) => {
+  models.Event.findAll({ order: [['createdAt', 'DESC']] }).then(events => {
+    res.render('events-index', { events: events });
+  })
 })
