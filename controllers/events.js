@@ -25,15 +25,12 @@ module.exports = function (app, models) {
 
     // SHOW
     app.get('/events/:id', (req, res) => {
-        // Search for the event by its id that was passed in via req.params
-        models.Event.findByPk(req.params.id).then((event) => {
-            // If the id is for a valid event, show it
-            res.render('events-show', { event: event })
+        models.Event.findByPk(req.params.id, { include: [{ model: models.Rsvp }] }).then(event => {
+            res.render('events-show', { event: event });
         }).catch((err) => {
-            // if they id was for an event not in our db, log an error
             console.log(err.message);
         })
-    })
+    });
 
     // EDIT
     app.get('/events/:id/edit', (req, res) => {
@@ -66,4 +63,13 @@ module.exports = function (app, models) {
             console.log(err);
         });
     })
+
+    // CREATE
+    app.post('/events/:eventId/rsvps', (req, res) => {
+        models.Rsvp.create(req.body).then(rsvp => {
+            res.redirect(`/events/${req.params.eventId}`);
+        }).catch((err) => {
+            console.log(err)
+        });
+    });
 }
