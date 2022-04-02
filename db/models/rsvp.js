@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
 
     Rsvp.init({
         name: DataTypes.STRING,
-        email: DataTypes.STRING
+        email: DataTypes.STRING,
+        EventId: DataTypes.INTEGER
     }, {
         sequelize,
         modelName: 'Rsvp',

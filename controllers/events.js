@@ -63,13 +63,4 @@ module.exports = function (app, models) {
             console.log(err);
         });
     })
-
-    // CREATE
-    app.post('/events/:eventId/rsvps', (req, res) => {
-        models.Rsvp.create(req.body).then(rsvp => {
-            res.redirect(`/events/${req.params.eventId}`);
-        }).catch((err) => {
-            console.log(err)
-        });
-    });
 }
