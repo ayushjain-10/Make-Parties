@@ -2,7 +2,7 @@ module.exports = (app, models) => {
     // Create
     app.post('/events/:eventId/rsvps', (req, res) => {
         console.log('Hello')
-        req.body.EventId = req.params.eventId;
+        req.body.EventId = req.sanitize(req.params.eventId);
         console.log(req.body);
         models.Rsvp.create(req.body).then(() => {
             res.redirect(`/events/${req.params.eventId}`);

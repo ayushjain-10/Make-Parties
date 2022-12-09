@@ -5,6 +5,7 @@ const methodOverride = require('method-override')
 const app = express()
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
+const expressSanitizer = require('express-sanitizer');
 
 // INITIALIZE BODY-PARSER AND ADD IT TO APP
 const bodyParser = require('body-parser');
@@ -20,6 +21,11 @@ const hbs = exphbs.create({
   defaultLayout: 'main',
   handlebars: allowInsecurePrototypeAccess(Handlebars)
 });
+
+app.use(express.json());
+
+// Mount express-sanitizer middleware here
+app.use(expressSanitizer());
 
 // The following line must appear AFTER const app = express() and before your routes!
 app.use(bodyParser.urlencoded({ extended: true }));
